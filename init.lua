@@ -1044,10 +1044,18 @@ vim.o.shellquote = ''
 vim.o.shellxquote = ''
 
 -- add a column ruler
+-- python
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'python',
   callback = function()
     vim.opt_local.colorcolumn = '88'
+  end,
+})
+-- git
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'gitcommit',
+  callback = function()
+    vim.opt_local.colorcolumn = '50,72'
   end,
 })
 
