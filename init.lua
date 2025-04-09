@@ -1058,20 +1058,22 @@ vim.o.shellquote = ''
 vim.o.shellxquote = ''
 
 -- add a column ruler
--- python
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'python',
-  callback = function()
-    vim.opt_local.colorcolumn = '88'
-  end,
-})
--- git
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'gitcommit',
-  callback = function()
-    vim.opt_local.colorcolumn = '50,72'
-  end,
-})
+local filetype_colorcolumns = {
+  { pattern = 'python', column = '88' },
+  { pattern = 'gitcommit', column = '50,72' },
+  { pattern = 'cpp', column = '100' },
+}
+
+for _, config in ipairs(filetype_colorcolumns) do
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = config.pattern,
+    callback = function()
+      vim.opt_local.colorcolumn = config.column
+    end,
+  })
+end
+
+vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#24283b' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
