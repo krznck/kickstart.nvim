@@ -104,6 +104,10 @@ vim.opt.number = true
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 
+-- Make tab shorter
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+
 vim.api.nvim_create_autocmd('InsertEnter', {
   pattern = '*',
   callback = function()
@@ -782,6 +786,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'reorder-python-imports', 'black' },
+        -- cpp = { 'clang-format' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
