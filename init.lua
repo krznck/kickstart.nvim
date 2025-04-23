@@ -1080,5 +1080,15 @@ end
 
 vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#24283b' })
 
+-- add markdown word wrapping
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  callback = function()
+    vim.opt_local.wrap = true -- Enable line wrapping
+    vim.opt_local.linebreak = true -- Don't break words in the middle
+    vim.opt_local.breakindent = true -- Maintain indent when lines wrap
+  end,
+})
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
