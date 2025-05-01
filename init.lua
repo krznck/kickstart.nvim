@@ -1097,5 +1097,27 @@ vim.keymap.set({ 'n', 'v' }, '<leader>b', [["_]], {
   desc = '[B]lack Hole',
 })
 
+-- add a shortcut for cleaning a squashed git message as I like it
+-- TODO: Maybe add [G]it to which-key, though right now there's just this
+vim.keymap.set('n', '<leader>gf', function()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local new_lines = {}
+  for _, line in ipairs(lines) do
+    -- Skip metadata lines
+    if line:match '^commit' or line:match '^Author:' or line:match '^Date:' or line:match '^#' or line:match '^%s*$' then
+      goto continue
+    end
+    -- Turn commit message lines into bullet points
+    if line:match '^%s+.+' then
+      table.insert(new_lines, '- ' .. vim.trim(line))
+    else
+      table.insert(new_lines, line)
+    end
+    ::continue::
+  end
+  -- Replace buffer content with cleaned up message
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, new_lines)
+end, { desc = '[F]ormat squash commit message' })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
