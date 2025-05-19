@@ -294,6 +294,18 @@ require('lazy').setup({
     },
   },
 
+  -- add Peek to facilitate previewing markdown files
+  {
+    'toppair/peek.nvim',
+    event = { 'VeryLazy' },
+    build = 'deno task --quiet build:fast',
+    config = function()
+      require('peek').setup()
+      vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})
+      vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
+    end,
+  },
+
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -1119,5 +1131,9 @@ vim.keymap.set('n', '<leader>gf', function()
   vim.api.nvim_buf_set_lines(0, 0, -1, false, new_lines)
 end, { desc = '[F]ormat squash commit message' })
 
+-- tell the Peek plugin to just open in the browser
+require('peek').setup {
+  app = 'browser',
+}
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
