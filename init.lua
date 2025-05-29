@@ -1001,6 +1001,8 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt_local.wrap = true -- Enable line wrapping
     vim.opt_local.linebreak = true -- Don't break words in the middle
     vim.opt_local.breakindent = true -- Maintain indent when lines wrap
+    vim.opt_local.spell = true -- Enable spellcheck
+    vim.opt_local.spelllang = { 'en_us' } -- ...with US English
   end,
 })
 
