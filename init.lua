@@ -864,11 +864,23 @@ require('lazy').setup({
       require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      -- NOTE: remapped to fix conflict with leap.nvim
+      require('mini.surround').setup {
+        mappings = {
+          add = 'gsa',
+          delete = 'gsd',
+          find = '',
+          find_left = '',
+          highlight = '',
+          replace = 'gsc',
+          update_n_lines = '',
+
+          -- Add this only if you don't want to use extended mappings
+          suffix_last = '',
+          suffix_next = '',
+        },
+        search_method = 'cover_or_next',
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -918,6 +930,14 @@ require('lazy').setup({
   {
     'numToStr/Comment.nvim',
     opts = {},
+  },
+
+  -- successor to vim-sneak; repo says it is unstable at this time
+  {
+    'ggandor/leap.nvim',
+    config = function()
+      require('leap').set_default_mappings()
+    end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
