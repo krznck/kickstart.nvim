@@ -940,6 +940,60 @@ require('lazy').setup({
     end,
   },
 
+  -- pluggin to facilitate flutter development
+  {
+    'nvim-flutter/flutter-tools.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      -- 'stevearc/dressing.nvim', -- optional for vim.ui.select
+    },
+    config = function()
+      require('flutter-tools').setup {
+        lsp = {
+          color = {
+            enabled = true,
+            background = true, -- highlight the background
+            background_color = { r = 19, g = 17, b = 24 },
+            foreground = false, -- highlight the foreground
+            virtual_text = true, -- show the highlight using virtual text
+            virtual_text_str = '■', -- the virtual text character to highlight
+          },
+        },
+      }
+
+      require('telescope').load_extension 'flutter'
+
+      -- add :Telescope flutter commands as <leader>sc, but only in .dart files
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'dart',
+        callback = function()
+          local wk = require 'which-key'
+          wk.add {
+            { '<leader>sl', '<cmd>Telescope flutter commands<cr>', desc = '[S]earch flutter [L]SP', mode = 'n' },
+          }
+
+          -- also commands to use directly in an LSP group
+          wk.add {
+            { '<leader>l', group = 'Flutter [L]SP' },
+            { '<leader>ls', '<cmd>FlutterRun<cr>', desc = 'Flutter [L]SP [S]tart', mode = 'n' },
+            { '<leader>ld', '<cmd>FlutterDevices<cr>', desc = 'Flutter [L]SP [D]evices', mode = 'n' },
+            { '<leader>le', '<cmd>FlutterEmulators<cr>', desc = 'Flutter [L]SP [E]mulators', mode = 'n' },
+            { '<leader>lr', '<cmd>FlutterReload<cr>', desc = 'Flutter [L]SP [R]eload', mode = 'n' },
+            { '<leader>lR', '<cmd>FlutterRestart<cr>', desc = 'Flutter [L]SP [R]estart', mode = 'n' },
+            { '<leader>lq', '<cmd>FlutterQuit<cr>', desc = 'Flutter [L]SP [Q]uit', mode = 'n' },
+            { '<leader>la', '<cmd>FlutterAttach<cr>', desc = 'Flutter [L]SP [A]ttach', mode = 'n' },
+            { '<leader>lD', '<cmd>FlutterDetach<cr>', desc = 'Flutter [L]SP [D]etach', mode = 'n' },
+            { '<leader>lo', '<cmd>FlutterOutlineToggle<cr>', desc = 'Flutter [L]SP [O]utline Toggle', mode = 'n' },
+            { '<leader>lO', '<cmd>FlutterOutlineOpen<cr>', desc = 'Flutter [L]SP [O]utline Open', mode = 'n' },
+            { '<leader>lC', '<cmd>FlutterLogClear<cr>', desc = 'Flutter [L]SP Log [C]lear', mode = 'n' },
+            { '<leader>lL', '<cmd>FlutterLogToggle<cr>', desc = 'Flutter [L]SP Log Togg[L]e', mode = 'n' },
+          }
+        end,
+      })
+    end,
+  },
+
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
