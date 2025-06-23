@@ -994,6 +994,67 @@ require('lazy').setup({
     end,
   },
 
+  -- plugin to switch between different files quickly and easily
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local harpoon = require 'harpoon'
+      harpoon.setup()
+
+      local wk = require 'which-key'
+      wk.add {
+        { '<leader>h', group = '[H]arpoon' },
+        {
+          '<leader>ha',
+          function()
+            harpoon:list():add()
+          end,
+          desc = '[H]arpoon [A]dd',
+          mode = 'n',
+        },
+        {
+          '<leader>hr',
+          function()
+            harpoon:list():remove()
+          end,
+          desc = '[H]arpoon [R]emove',
+          mode = 'n',
+        },
+        {
+          '<leader>hm',
+          function()
+            harpoon.ui:toggle_quick_menu(harpoon:list())
+          end,
+          desc = '[H]arpoon [M]enu',
+          mode = 'n',
+        },
+      }
+      vim.keymap.set('n', '<F1>', function()
+        harpoon:list():select(1)
+      end)
+      vim.keymap.set('n', '<F2>', function()
+        harpoon:list():select(2)
+      end)
+      vim.keymap.set('n', '<F3>', function()
+        harpoon:list():select(3)
+      end)
+      vim.keymap.set('n', '<F4>', function()
+        harpoon:list():select(4)
+      end)
+      vim.keymap.set('n', '<F5>', function()
+        harpoon:list():select(5)
+      end)
+      vim.keymap.set('n', '<C-p>', function()
+        harpoon:list():prev()
+      end)
+      vim.keymap.set('n', '<C-n>', function()
+        harpoon:list():next()
+      end)
+    end,
+  },
+
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -1055,6 +1116,7 @@ local filetype_colorcolumns = {
   { pattern = 'python', column = '88' },
   { pattern = 'gitcommit', column = '50,72' },
   { pattern = 'cpp', column = '100' },
+  { pattern = 'dart', column = '80' },
 }
 
 for _, config in ipairs(filetype_colorcolumns) do
