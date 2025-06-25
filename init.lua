@@ -4,6 +4,11 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- gotta disable netrw, as we have nvim-tree installed
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.opt.termguicolors = true
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -274,7 +279,7 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        -- { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
   },
@@ -1030,6 +1035,14 @@ require('lazy').setup({
           desc = '[H]arpoon [M]enu',
           mode = 'n',
         },
+        {
+          '<leader>hc',
+          function()
+            harpoon:list():clear()
+          end,
+          desc = '[H]arpoon [C]lear',
+          mode = 'n',
+        },
       }
       vim.keymap.set('n', '<F1>', function()
         harpoon:list():select(1)
@@ -1052,6 +1065,27 @@ require('lazy').setup({
       vim.keymap.set('n', '<C-n>', function()
         harpoon:list():next()
       end)
+    end,
+  },
+
+  {
+    'nvim-tree/nvim-tree.lua',
+    version = '*',
+    lazy = false,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require('nvim-tree').setup {}
+      local wk = require 'which-key'
+      wk.add {
+        {
+          '<leader>tt',
+          '<cmd>NvimTreeToggle<cr>',
+          desc = '[T]oggle [T]ree',
+          mode = 'n',
+        },
+      }
     end,
   },
 
