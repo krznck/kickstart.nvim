@@ -1215,5 +1215,11 @@ vim.keymap.set('n', 'C', '"_C', { noremap = true, silent = true })
 vim.keymap.set('v', 'c', '"_c', { noremap = true, silent = true })
 vim.keymap.set('v', 'C', '"_C', { noremap = true, silent = true })
 
+-- disable swap files - don't feel like I need them, since there's version control
+vim.opt.swapfile = false
+
+-- makes '`' have the behavior of changing the capitalization of a letter, to work around dead keys on Windows
+vim.keymap.set('n', '`', '~', { noremap = true })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
