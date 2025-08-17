@@ -906,8 +906,21 @@ require('lazy').setup({
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
+  -- Markdown previewer
+  {
+    'OXY2DEV/markview.nvim',
+    lazy = false,
+
+    -- For `nvim-treesitter` users.
+    priority = 49,
+
+    opts = {
+      preview = { icon_provider = 'devicons' },
+    },
+  },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    lazy = false,
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -923,6 +936,9 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+    },
+    dependencies = {
+      'OXY2DEV/markview.nvim',
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -1164,13 +1180,13 @@ end
 
 vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#24283b' })
 
--- add markdown word wrapping
+-- add markdown word spellcheck
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
   callback = function()
-    vim.opt_local.wrap = true -- Enable line wrapping
-    vim.opt_local.linebreak = true -- Don't break words in the middle
-    vim.opt_local.breakindent = true -- Maintain indent when lines wrap
+    -- vim.opt_local.wrap = true -- Enable line wrapping
+    -- vim.opt_local.linebreak = true -- Don't break words in the middle
+    -- vim.opt_local.breakindent = true -- Maintain indent when lines wrap
     vim.opt_local.spell = true -- Enable spellcheck
     vim.opt_local.spelllang = { 'en_us' } -- ...with US English
   end,
