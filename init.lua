@@ -906,18 +906,16 @@ require('lazy').setup({
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
-  -- Markdown previewer
+
+  -- previewing Markdown in real time
   {
-    'OXY2DEV/markview.nvim',
-    lazy = false,
-
-    -- For `nvim-treesitter` users.
-    priority = 49,
-
-    opts = {
-      preview = { icon_provider = 'devicons' },
-    },
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
   },
+
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     lazy = false,
@@ -936,9 +934,6 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
-    },
-    dependencies = {
-      'OXY2DEV/markview.nvim',
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
