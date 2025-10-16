@@ -1213,6 +1213,15 @@ vim.keymap.set({ 'n', 'v' }, '<leader>b', [["_]], {
   desc = '[B]lack Hole',
 })
 
+-- make QSS (Qt stylesheets) be treated like regular CSS files
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+  pattern = '*.qss',
+  callback = function()
+    vim.opt_local.filetype = 'css'
+  end,
+  desc = 'Treat QSS files as CSS',
+})
+
 -- add a shortcut for cleaning a squashed git message as I like it
 -- TODO: Maybe add [G]it to which-key, though right now there's just this
 vim.keymap.set('n', '<leader>gf', function()
